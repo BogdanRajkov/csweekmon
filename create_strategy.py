@@ -36,6 +36,7 @@ class {}Strategy:\n\
         #TODO: implement action selection\n\
         return Action.PERFORM_MOVE, 0'
 
+
 def controlled_string_input(prompt):
     pattern = re.compile('^[A-Za-z]([A-Za-z0-9_])*$')
     while True:
@@ -44,6 +45,7 @@ def controlled_string_input(prompt):
             break
         print('Invalid name! Should match pattern [A-Za-z]([A-Za-z0-9_])*')
     return string_input
+
 
 def controlled_int_input(prompt, maximum, minimum=0):
     while True:
@@ -57,9 +59,8 @@ def controlled_int_input(prompt, maximum, minimum=0):
         print('Invalid number! Should only have digits')
     return int_input
 
+
 if __name__ == '__main__':
-    CONTESTANT_NAME = ''
-    CSWEEKMON_NAME = ''
     STAT_POINTS = 100
     CONTESTANT_NAME = controlled_string_input('Strategy name: ')
     CSWEEKMON_NAME = controlled_string_input('Csweekmon name: ')

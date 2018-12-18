@@ -87,7 +87,7 @@ def main():
 if __name__ == "__main__":
     PARSER = argparse.ArgumentParser(formatter_class=argparse.ArgumentDefaultsHelpFormatter)
     PARSER.add_argument('--no-verbose', action='store_true',
-                        help='disable verbose output of the matches (skip to final scoreboard')
+                        help='disable verbose output of the matches (skip to final scoreboard)')
     PARSER.add_argument('--delay', type=float, metavar='D', default=1.0,
                         help='number of seconds between ui ticks if verbose mode is on')
     ARGS = PARSER.parse_args()

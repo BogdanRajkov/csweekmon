@@ -75,7 +75,7 @@ def verify(csweekmon, max_cost=MAX_COST, stat_points=STAT_POINTS):
     effects = stats['Effects']
     return (all([x >= 0 for x in [ppoints, strength, defense, special]])
             and health > 0
-            and HP_W * health + PP_W * ppoints + STR_W * strength + \
+            and HP_W * health + PP_W * ppoints + STR_W * strength +
                     DEF_W * defense + SPEC_W * special <= stat_points
             and len(moves) == MOVE_COUNT
             and all([i in range(ALL_MOVES_COUNT) for i in moves])
@@ -160,7 +160,7 @@ def run_battle(agent_fst, agent_snd):
         # status effects logic
         will_break, will_continue = process_effects(agent_cur)
         if will_break:
-            agent_cur = agent_oth
+            # agent_cur = agent_oth
             current_player = 3 - current_player
             break
         if will_continue:

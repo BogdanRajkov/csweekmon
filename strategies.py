@@ -46,7 +46,6 @@ class SimpleStrategy:
             return Action.PERFORM_MOVE, 1
         return Action.PERFORM_MOVE, 0
 
-
 class TankStrategy:
 
     def __init__(self):
@@ -77,7 +76,6 @@ class TankStrategy:
             self.turn -= 1
             return Action.PERFORM_MOVE, 0
         return Action.PERFORM_MOVE, 1
-
 
 class HugePowerStrategy:
 
@@ -154,7 +152,6 @@ class GlassCannonStrategy:
             return Action.PERFORM_MOVE, 2
         return Action.PERFORM_MOVE, 0
 
-
 class RandomStrategy:
 
     def __init__(self):
@@ -181,7 +178,6 @@ class RandomStrategy:
 
     def choose_action(self):
         return Action.PERFORM_MOVE, random.randint(0, 2)
-
 
 class HeavyHitStrategy:
 
@@ -226,7 +222,6 @@ class HeavyHitStrategy:
         if self.stats['PP'] >= 4:
             return Action.PERFORM_MOVE, 2
         return Action.PERFORM_MOVE, 0
-
 
 class HumanStrategy:
 
