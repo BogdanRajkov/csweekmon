@@ -84,6 +84,7 @@ def main():
         rank += 1
     print('-'*59)
 
+
 if __name__ == "__main__":
     PARSER = argparse.ArgumentParser(formatter_class=argparse.ArgumentDefaultsHelpFormatter)
     PARSER.add_argument('--no-verbose', action='store_true',

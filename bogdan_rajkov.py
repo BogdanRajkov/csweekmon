@@ -1,11 +1,8 @@
 
-import random
-
 from actions import Action
 from utils import Printer
 
-from game_engine import MOVES, ITEMS, MOVE_COUNT, MAX_ITEMS, MAX_COST, STAT_POINTS
-from game_engine import HP_W, PP_W, STR_W, DEF_W, SPEC_W
+from game_engine import MOVES, ITEMS
 ALL_MOVES_COUNT = len(MOVES)
 ALL_ITEMS_COUNT = len(ITEMS)
 
@@ -15,7 +12,8 @@ class TestStrategy:
         self.my_stats = {}
         self.enemy_stats = {}
 
-    def set_initial_stats(self):
+    @staticmethod
+    def set_initial_stats():
         return {'Name': 'Bobo',
                 'HP': 40,
                 'PP': 30,
@@ -74,7 +72,8 @@ class Day1Strategy:
         self.antidote_used = False
         self.echoscreen_used = False
 
-    def set_initial_stats(self):
+    @staticmethod
+    def set_initial_stats():
         return {'Name': 'Ćtvimon',
                 'HP': 40,
                 'PP': 30,
@@ -106,7 +105,7 @@ class Day1Strategy:
         if self.turn > 20 or self.enemy_stats['Previous move'] == 'Focus':
             self.in_hurry = True
         if self.enemy_stats['Strength'] >= 10 and \
-            (self.enemy_stats['Previous move'] == 'Focus' or self.my_stats['HP'] < 20):
+                (self.enemy_stats['Previous move'] == 'Focus' or self.my_stats['HP'] < 20):
             self.prev_HP = self.my_stats['HP']
             return Action.BLOCK, 0
         if self.my_stats['HP'] < 12:
@@ -165,3 +164,113 @@ class Day1Strategy:
             return Action.USE_ITEM, 1
         self.prev_HP = self.my_stats['HP']
         return Action.PERFORM_MOVE, 2
+
+
+class PajinStrategy:
+
+    def __init__(self):
+        self.stats = {}
+        self.enemy_stats = {}
+        self.cookies = 2
+        self.echoes = 2
+        self.restore = 1
+        self.first = False
+
+    @staticmethod
+    def set_initial_stats():
+        return {'Name': 'Pajin',
+                'HP': 31,
+                'PP': 29,
+                'Strength': 0,
+                'Defense': 0,
+                'Special': 20,
+                'Moves': [10, 1, 12],
+                'Items': [3, 5, 5, 0, 0]}
+
+    def set_order_info(self, is_first):
+        self.first = is_first
+
+    def receive_my_stats(self, own_stats):
+        self.stats = own_stats
+
+    def receive_enemy_stats(self, enemy_info):
+        self.enemy_stats = enemy_info
+
+    def choose_action(self):
+        if self.stats['HP'] <= 12 and self.cookies > 0:
+            self.cookies = self.cookies - 1
+            return Action.USE_ITEM, (3 + self.cookies)  # COOKIE
+        if 'Disable' in self.stats['Effects'] and self.echoes > 0:
+            self.echoes = self.echoes - 1
+            return Action.USE_ITEM, (1 + self.echoes)  # ECHO SCREEN
+        if self.restore != 0 and self.stats['PP'] < 14:
+            self.restore = 0
+            return Action.USE_ITEM, 0  # PP RESTORE
+        if self.stats['PP'] >= 14:
+            return Action.PERFORM_MOVE, 0  # BLAZE
+        if self.stats['PP'] >= 6:
+            return Action.PERFORM_MOVE, 2  # DRAIN
+        if self.stats['PP'] >= 5 and 'Poison' not in self.enemy_stats['Effects']:
+            return Action.PERFORM_MOVE, 1  # POISON
+        return Action.BLOCK, 0
+
+class Day2Strategy:
+
+    def __init__(self):
+        self.my_stats = {}
+        self.is_first = False
+        self.max_cookies = 10
+        self.cookies_used = 0
+        self.enemy_stats = {}
+        self.enemy_moves = []
+        self.enemy_items = []
+
+    @staticmethod
+    def set_initial_stats():
+        return {'Name': 'Debelimon',
+                'HP': 0,
+                'PP': 0,
+                'Strength': 0,
+                'Defense': 0,
+                'Special': 0,
+                'Moves': [8, 2, 0],
+                'Items': [0, 0, 0, 0, 0, 0, 0, 0, 0, 0]}
+
+    def set_order_info(self, is_first):
+        self.is_first = is_first
+
+    def receive_my_stats(self, own_stats):
+        self.my_stats = own_stats
+
+    def receive_enemy_stats(self, enemy_info):
+        self.enemy_stats = enemy_info
+        if not self.enemy_moves:
+            self.enemy_moves = enemy_info['Moves']
+        if not self.enemy_items:
+            self.enemy_items = enemy_info['Items']
+
+    def choose_action(self):
+        pr_disable = (1 - [x in self.enemy_moves and not x.CAN_DISABLE for x in MOVES].count(True)/4) * \
+                     ('Disable' not in self.enemy_stats['Effects'])
+        pr_attack = 0.5
+        pr_heal = (1 - self.my_stats['HP']/self.my_stats['Max HP'])
+        decision = [('disable', pr_disable), ('attack', pr_attack), ('heal', pr_heal)]
+        decision.sort(key=lambda x: x[1], reverse=True)
+        action = decision[0]
+        if action == 'disable' and self.my_stats['PP'] >= MOVES[8].PP_COST:
+            return Action.PERFORM_MOVE, 0
+        if action == 'attack':
+            if self.my_stats['PP'] < MOVES[2].PP_COST:
+                return Action.PERFORM_MOVE, 2
+            base_counter = max(0, 0.5 * self.my_stats['Recent damage']
+                                  + self.my_stats['Strength']
+                                  - self.my_stats['Defense'])
+            base_tackle = max(0, 0.7 * self.my_stats['Strength'] - self.enemy_stats['Defense'])
+            if base_counter > base_tackle:
+                return Action.PERFORM_MOVE, 1
+            else:
+                return Action.PERFORM_MOVE, 2
+        if action == 'heal' and self.cookies_used < self.max_cookies:
+            self.cookies_used += 1
+            return Action.USE_ITEM, self.cookies_used - 1
+        return Action.BLOCK, 0
