@@ -228,10 +228,10 @@ class Day2Strategy:
     @staticmethod
     def set_initial_stats():
         return {'Name': 'Debelimon',
-                'HP': 0,
-                'PP': 0,
-                'Strength': 0,
-                'Defense': 0,
+                'HP': 40,
+                'PP': 10,
+                'Strength': 15,
+                'Defense': 10,
                 'Special': 0,
                 'Moves': [8, 2, 0],
                 'Items': [0, 0, 0, 0, 0, 0, 0, 0, 0, 0]}
@@ -256,7 +256,8 @@ class Day2Strategy:
         pr_heal = (1 - self.my_stats['HP']/self.my_stats['Max HP'])
         decision = [('disable', pr_disable), ('attack', pr_attack), ('heal', pr_heal)]
         decision.sort(key=lambda x: x[1], reverse=True)
-        action = decision[0]
+        print(decision)
+        action = decision[0][0]
         if action == 'disable' and self.my_stats['PP'] >= MOVES[8].PP_COST:
             return Action.PERFORM_MOVE, 0
         if action == 'attack':
