@@ -75,13 +75,19 @@ def main():
                 # print('THIS BATTLE HAS FINISHED IN {} TURNS'.format(num_turns), file = sys.stderr)
                 if outcome == 1:
                     SCORES[csw1.name] += points
+                    WINS[csw1.name] += 1
+                    LOSS[csw2.name] += 1
                     print('   Winner: {}, and he got {} points for the victory!'.format(csw1.name, points))
                 elif outcome == 2:
                     SCORES[csw2.name] += points
+                    WINS[csw2.name] += 1
+                    LOSS[csw1.name] += 1
                     print('   Winner: {}, and he got {} points for the victory!'.format(csw2.name, points))
                 else:
                     SCORES[csw1.name] += 1.0
                     SCORES[csw2.name] += 1.0
+                    DRAW[csw1.name] += 1
+                    DRAW[csw2.name] += 1
                     print('   It\'s a draw!')
 
     # print scoreboard
@@ -92,8 +98,10 @@ def main():
     sorted_scores = sorted(SCORES.items(), key=lambda kv: kv[1], reverse=True)
     rank = 1
     for name, pts in sorted_scores:
-        print('|{}|{}|{}|{}|'.format(str(rank).center(6), name.center(20),
-                                     str(round(pts, 1)).center(5), str(matches_played).center(5)))
+        print('|{}|{}|{}|{}|{}|{}|{}|'.format(str(rank).center(6), name.center(20),
+                                              str(pts).center(5), str(matches_played).center(5),
+                                              str(WINS[name]).center(5), str(DRAW[name]).center(5),
+                                              str(LOSS[name]).center(5)))
         rank += 1
     print('-'*59)
 
