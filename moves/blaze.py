@@ -7,7 +7,7 @@ from utils import Printer
 
 NAME = 'Blaze'
 PP_COST = 14
-SUCCESS_RATE = 80
+SUCCESS_RATE = 60
 CRIT_RATE = 15
 CAN_DISABLE = True
 

@@ -6,8 +6,8 @@ import random
 from utils import Printer
 
 NAME = 'Blast'
-PP_COST = 8
-SUCCESS_RATE = 80
+PP_COST = 11
+SUCCESS_RATE = 70
 CRIT_RATE = 15
 CAN_DISABLE = True
 

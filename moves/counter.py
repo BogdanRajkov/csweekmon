@@ -10,7 +10,7 @@ from utils import Printer
 NAME = 'Counter'
 PP_COST = 5
 SUCCESS_RATE = 90
-CRIT_RATE = 20
+CRIT_RATE = 30
 CAN_DISABLE = False
 
 def perform(user, other):

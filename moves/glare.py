@@ -7,7 +7,7 @@ from utils import Printer
 
 NAME = 'Glare'
 PP_COST = 4
-SUCCESS_RATE = 75
+SUCCESS_RATE = 85
 CRIT_RATE = 10
 CAN_DISABLE = True
 
