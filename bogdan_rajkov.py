@@ -228,9 +228,9 @@ class Day2Strategy:
     @staticmethod
     def set_initial_stats():
         return {'Name': 'Debelimon',
-                'HP': 40,
-                'PP': 10,
-                'Strength': 15,
+                'HP': 39,
+                'PP': 21,
+                'Strength': 10,
                 'Defense': 10,
                 'Special': 0,
                 'Moves': [8, 2, 0],
