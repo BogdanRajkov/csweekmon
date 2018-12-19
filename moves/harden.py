@@ -6,7 +6,7 @@ import random
 from utils import Printer
 
 NAME = 'Harden'
-PP_COST = 4
+PP_COST = 5
 CAN_DISABLE = True
 
 def perform(user, _):
