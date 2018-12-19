@@ -12,13 +12,13 @@ from csweekmon import Csweekmon
 
 STRATEGIES = [
     strategies.SimpleStrategy,
-    # strategies.TankStrategy,
+    strategies.TankStrategy,
     strategies.GlassCannonStrategy,
     strategies.HeavyHitStrategy,
-    # strategies.RandomStrategy,
+    strategies.RandomStrategy,
     strategies.HugePowerStrategy,
     bogdan_rajkov.Day2Strategy,
-    # bogdan_rajkov.PajinStrategy
+    bogdan_rajkov.PajinStrategy
 ]
 
 NSTRATEGIES = len(STRATEGIES)

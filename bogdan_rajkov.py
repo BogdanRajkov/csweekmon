@@ -234,7 +234,7 @@ class Day2Strategy:
                 'Defense': 10,
                 'Special': 0,
                 'Moves': [8, 2, 0],
-                'Items': [0, 0, 0, 0, 0, 0, 0, 0, 0, 0]}
+                'Items': [0, 0, 0, 0, 0, 0, 3]}
 
     def set_order_info(self, is_first):
         self.is_first = is_first
@@ -250,13 +250,35 @@ class Day2Strategy:
             self.enemy_items = enemy_info['Items']
 
     def choose_action(self):
+        enemy_damage = [max(0, 0.7 * self.enemy_stats['Strength'] - self.my_stats['Defense']),
+                        max(self.enemy_stats['Special'] * 0.5, 8)/2 + 1,
+                        max(0, 0.5 * self.enemy_stats['Recent damage']
+                            + self.enemy_stats['Strength'] - self.my_stats['Defense']),
+                        0, 0, 0,
+                        max(0, 1.2 * self.enemy_stats['Special'] - 0.2 * self.my_stats['Defense']),
+                        max(0, 1.8 * self.enemy_stats['Strength'] - 1.2 * self.my_stats['Defense']),
+                        0,
+                        max(0, 0.6 * self.enemy_stats['Strength'] - 0.2 * self.my_stats['Defense']),
+                        max(0, 2.2 * self.enemy_stats['Special'] - 0.2 * self.my_stats['Defense']),
+                        0,
+                        max(0, self.enemy_stats['Special'] - 0.2 * self.my_stats['Defense']),
+                        0
+                        ]
+        max_damage = 0
+        for x in self.enemy_moves:
+            if self.enemy_stats['PP'] >= MOVES[x].PP_COST:
+                max_damage = max(max_damage, enemy_damage[x])
+        if max_damage >= self.my_stats['HP']:
+            pr_heal = 1.1
+        else:
+            pr_heal = (1 - self.my_stats['HP']/self.my_stats['Max HP'])
+
         pr_disable = (1 - [x in self.enemy_moves and not x.CAN_DISABLE for x in MOVES].count(True)/4) * \
                      ('Disable' not in self.enemy_stats['Effects'])
         pr_attack = 0.5
-        pr_heal = (1 - self.my_stats['HP']/self.my_stats['Max HP'])
         decision = [('disable', pr_disable), ('attack', pr_attack), ('heal', pr_heal)]
-        decision.sort(key=lambda x: x[1], reverse=True)
-        print(decision)
+        decision.sort(key=lambda arg: arg[1], reverse=True)
+        # print(decision)
         action = decision[0][0]
         if action == 'disable' and self.my_stats['PP'] >= MOVES[8].PP_COST:
             return Action.PERFORM_MOVE, 0
