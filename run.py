@@ -6,19 +6,17 @@ import math
 
 import game_engine
 import strategies
-import bogdan_rajkov
+import upgraded
+import custom
 from utils import Printer
 from csweekmon import Csweekmon
 
 STRATEGIES = [
-    strategies.SimpleStrategy,
-    strategies.TankStrategy,
-    strategies.GlassCannonStrategy,
     strategies.HeavyHitStrategy,
-    strategies.RandomStrategy,
-    strategies.HugePowerStrategy,
-    bogdan_rajkov.Day2Strategy,
-    bogdan_rajkov.PajinStrategy
+    # upgraded.SimpleStrategy,
+    # upgraded.HugePowerStrategy,
+    custom.Day2Strategy,
+    # custom.PajinStrategy
 ]
 
 NSTRATEGIES = len(STRATEGIES)
