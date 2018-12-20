@@ -1,20 +1,19 @@
 """Entry point for the game."""
 
 import argparse
-# import sys
-import math
 
 import game_engine
-import strategies
-import upgraded
+# import strategies
+# import upgraded
 import custom
 from utils import Printer
 from csweekmon import Csweekmon
 
 STRATEGIES = [
-    strategies.HeavyHitStrategy,
     # upgraded.SimpleStrategy,
-    # upgraded.HugePowerStrategy,
+    # strategies.SimpleStrategy
+    # strategies.ClassCannonStrategy
+    # strategies.
     custom.Day2Strategy,
     # custom.PajinStrategy
 ]
@@ -24,14 +23,6 @@ SCORES = dict()
 WINS = dict()
 DRAW = dict()
 LOSS = dict()
-
-def round2_scoring(k):
-    if k <= 10:
-        return 3.0
-    elif k <= 40:
-        return 3 - 0.1 * math.floor((k - 10) / 2)
-    else:
-        return 1.4    
 
 def main():
     """Run tournament."""
@@ -65,25 +56,20 @@ def main():
                 if SCORES[csw1.name] == -1 or SCORES[csw2.name] == -1:
                     print('   Battle skipped, at least one competitor was DQ!')
                     continue
-                outcome, num_turns = game_engine.run_battle(csw1, csw2)
-                points = 0
-                if outcome == 1 or outcome == 2:
-                    points = round2_scoring(num_turns)
-
-                # print('THIS BATTLE HAS FINISHED IN {} TURNS'.format(num_turns), file = sys.stderr)
+                outcome = game_engine.run_battle(csw1, csw2)
                 if outcome == 1:
-                    SCORES[csw1.name] += points
+                    SCORES[csw1.name] += 3
                     WINS[csw1.name] += 1
                     LOSS[csw2.name] += 1
-                    print('   Winner: {}, and he got {} points for the victory!'.format(csw1.name, points))
+                    print('   Winner: {}'.format(csw1.name))
                 elif outcome == 2:
-                    SCORES[csw2.name] += points
+                    SCORES[csw2.name] += 3
                     WINS[csw2.name] += 1
                     LOSS[csw1.name] += 1
-                    print('   Winner: {}, and he got {} points for the victory!'.format(csw2.name, points))
+                    print('   Winner: {}'.format(csw2.name))
                 else:
-                    SCORES[csw1.name] += 1.0
-                    SCORES[csw2.name] += 1.0
+                    SCORES[csw1.name] += 1
+                    SCORES[csw2.name] += 1
                     DRAW[csw1.name] += 1
                     DRAW[csw2.name] += 1
                     print('   It\'s a draw!')

@@ -82,7 +82,9 @@ def verify(csweekmon, max_cost=MAX_COST, stat_points=STAT_POINTS):
             and len(items) <= MAX_ITEMS
             and all([i in range(ALL_ITEMS_COUNT) for i in items])
             and sum([item_cost[i] for i in items]) <= max_cost
-            and effects == [])
+            and effects == []
+            and csweekmon.stats['Banned'] not in csweekmon.stats['Moves']
+            and csweekmon.stats['Banned'] != csweekmon.stats['Replacement'])
 
 
 def write_stats(turn_number, agent_fst, agent_snd):
@@ -141,6 +143,10 @@ def run_battle(agent_fst, agent_snd):
     Printer.print_ui('  {} is walking...'.format(agent_fst.name))
     Printer.delay_ui(1)
     Printer.print_ui('        ...a wild {} appears!'.format(agent_snd.name))
+    agent_fst.stats['Moves'] = [x if x != agent_snd.stats['Banned'] \
+            else agent_fst.stats['Replacement'] for x in agent_fst.stats['Moves']]
+    agent_snd.stats['Moves'] = [x if x != agent_fst.stats['Banned'] \
+            else agent_snd.stats['Replacement'] for x in agent_snd.stats['Moves']]
     turn_number = 0
     max_turns = 50
     current_player = 2
@@ -228,4 +234,4 @@ def run_battle(agent_fst, agent_snd):
         current_player = 0
     Printer.print_ui('============================================================')
     # Printer.print_ui()
-    return current_player, turn_number
+    return current_player
