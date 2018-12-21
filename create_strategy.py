@@ -90,8 +90,6 @@ def strategy_input(suffix):
         for idx in range(game_engine.MOVE_COUNT):
             MOVES.append(controlled_int_input('Move #{}: '.format(idx + 1),
                                               game_engine.ALL_MOVES_COUNT, 1) - 1)
-        BANNED = controlled_int_input('Ban move: ', game_engine.ALL_MOVES_COUNT, 1)
-        REPLACEMENT = controlled_int_input('Replacement move: ', game_engine.ALL_MOVES_COUNT, 1)
         print('Items:')
         print('  0) Nothing (no more items)')
         for idx, item in enumerate(game_engine.ITEMS):

@@ -82,10 +82,7 @@ def verify(csweekmon, max_cost=MAX_COST, stat_points=STAT_POINTS):
             and len(items) <= MAX_ITEMS
             and all([i in range(ALL_ITEMS_COUNT) for i in items])
             and sum([item_cost[i] for i in items]) <= max_cost
-            and effects == []
-            and csweekmon.stats['Banned'] not in csweekmon.stats['Moves']
-            and csweekmon.stats['Banned'] != csweekmon.stats['Replacement'])
-
+            and effects == [])
 
 def write_stats(turn_number, agent_fst, agent_snd):
     """Displays both players' basic stats on the screen."""
