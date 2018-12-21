@@ -107,8 +107,6 @@ def strategy_input(suffix):
         CSW.stats['Special'] = SPECIAL
         CSW.stats['Moves'] = MOVES
         CSW.stats['Items'] = ITEMS
-        CSW.stats['Banned'] = BANNED
-        CSW.stats['Replacement'] = REPLACEMENT
         if game_engine.verify(CSW, CREDITS, STAT_POINTS):
             break
         print('Invalid strategy settings!')

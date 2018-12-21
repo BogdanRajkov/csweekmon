@@ -11,7 +11,8 @@ class SimpleStrategy:
         self.own_stats = {}
         self.enemy_stats = {}
 
-    def set_initial_stats(self):
+    @staticmethod
+    def set_initial_stats():
         return {'Name': 'Simple',
                 'HP': 37,
                 'PP': 17,
@@ -46,7 +47,8 @@ class TankStrategy:
         self.turn = 2
         self.stats = {}
 
-    def set_initial_stats(self):
+    @staticmethod
+    def set_initial_stats():
         return {'Name': 'Tank',
                 'HP': 50,
                 'PP': 10,
@@ -78,7 +80,8 @@ class HugePowerStrategy:
         self.enemy_stats = {}
         self.cookies_left = 10
 
-    def set_initial_stats(self):
+    @staticmethod
+    def set_initial_stats():
         return {'Name': 'Huge Power',
                 'HP': 35,
                 'PP': 35,
@@ -118,7 +121,8 @@ class GlassCannonStrategy:
         self.stats = {}
         self.enemy_stats = {}
 
-    def set_initial_stats(self):
+    @staticmethod
+    def set_initial_stats():
         return {'Name': 'Glass Cannon',
                 'HP': 30,
                 'PP': 30,
@@ -154,7 +158,8 @@ class RandomStrategy:
     def __init__(self):
         pass
 
-    def set_initial_stats(self):
+    @staticmethod
+    def set_initial_stats():
         return {'Name': 'Random',
                 'HP': 32,
                 'PP': 12,
@@ -173,7 +178,8 @@ class RandomStrategy:
     def receive_enemy_stats(self, enemy_info):
         pass
 
-    def choose_action(self):
+    @staticmethod
+    def choose_action():
         return Action.PERFORM_MOVE, random.randint(0, 2)
 
 class HeavyHitStrategy:
@@ -183,9 +189,9 @@ class HeavyHitStrategy:
         self.used_cookies = 0
         self.used_power = 0
         self.stats = {}
-        self.enemy_stats = {}
 
-    def set_initial_stats(self):
+    @staticmethod
+    def set_initial_stats():
         return {'Name': 'Heavy Hit',
                 'HP': 60,
                 'PP': 10,
@@ -219,4 +225,4 @@ class HeavyHitStrategy:
             return Action.PERFORM_MOVE, 1
         if self.stats['PP'] >= 4:
             return Action.PERFORM_MOVE, 2
-        Action.PERFORM_MOVE, 0
+        return Action.PERFORM_MOVE, 0
